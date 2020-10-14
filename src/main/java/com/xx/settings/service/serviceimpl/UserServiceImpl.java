@@ -6,6 +6,9 @@ import com.xx.settings.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
@@ -13,9 +16,9 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User checkLogin(String username, String password) {
-        User user = userDao.findByUsername(username);
-        if(user != null && user.getLoginPwd().equals(password)){
+    public User checkLogin(String loginAct, String loginPwd , HttpServletRequest request) {
+        User user = userDao.findByUsername(loginAct);
+        if(user != null && user.getLoginPwd().equals(loginPwd)){
             return user;
         }
         return null;

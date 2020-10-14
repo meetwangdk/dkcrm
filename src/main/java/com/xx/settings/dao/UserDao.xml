@@ -5,6 +5,6 @@
 <mapper namespace="com.xx.settings.dao.UserDao">
 
     <select id="findByUsername" resultType="com.xx.settings.domain.User">
-        select * from tbl_user where name = #{username}
+        select * from tbl_user where loginAct = #{loginAct}
     </select>
 </mapper>
