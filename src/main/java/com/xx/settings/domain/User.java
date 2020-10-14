@@ -2,19 +2,22 @@ package com.xx.settings.domain;
 
 public class User {
 
-    private String id;
-    private String loginAct;
-    private String name;
-    private String loginPwd;
-    private String email;
-    private String expireTime;
-    private String lockState;
-    private String deptno;
-    private String allowIps;
-    private String createTime;
-    private String createBy;
-    private String editTime;
-    private String edString;
+
+    //关于日期的格式  ： yy-MM-dd HH:mm:ss 一共19位字符
+
+    private String id;   //主键
+    private String loginAct;//登陆账号
+    private String name;//用户真实姓名
+    private String loginPwd;//登陆密码
+    private String email;//用户邮箱
+    private String expireTime;//失效时间
+    private String lockState;//锁定状态 0 ：锁定  1：启动
+    private String deptno;//  部门编号
+    private String allowIps;//允许访问的ip地址
+    private String createTime;//创建时间
+    private String createBy;//创建人
+    private String editTime;//修改时间
+    private String edString;//修改人
 
     public User() {
     }

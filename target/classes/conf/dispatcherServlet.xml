@@ -8,17 +8,17 @@
     <!--springmvc配置文件， 声明controller和其它web相关的对象-->
     <context:component-scan base-package="com.xx.settings.controller" />
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/WEB-INF/jsp/" />
-        <property name="suffix" value=".jsp" />
-    </bean>
+<!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+<!--        <property name="prefix" value="/WEB-INF/jsp/" />-->
+<!--        <property name="suffix" value=".jsp" />-->
+<!--    </bean>-->
 
 
 <!--    处理静态资源的问题   同时要要加入这个标签防止冲突 <mvc:annotation-driven /> -->
-    <!--<mvc:resources mapping="/image/**" location="/image/"/>
-    <mvc:resources mapping="/jquery/**" location="/jquery/"/>
-    <mvc:resources mapping="/settings/**" location="/settings/"/>
-    <mvc:resources mapping="/workbench/**" location="/workbench/"/>-->
+<!--    <mvc:resources mapping="/image/**" location="/image/"/>-->
+<!--    <mvc:resources mapping="/jquery/**" location="/jquery/"/>-->
+<!--    <mvc:resources mapping="/settings/**" location="/settings/"/>-->
+<!--    <mvc:resources mapping="/workbench/**" location="/workbench/"/>-->
     <mvc:default-servlet-handler/>
 
     <mvc:annotation-driven />
