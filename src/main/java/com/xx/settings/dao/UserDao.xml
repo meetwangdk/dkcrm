@@ -4,4 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xx.settings.dao.UserDao">
 
+    <select id="findByUsername" resultType="com.xx.settings.domain.User">
+        select * from tbl_user where name = #{username}
+    </select>
 </mapper>

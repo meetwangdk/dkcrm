@@ -1,6 +1,9 @@
-com\xx\utils\PrintJson.class
-com\xx\settings\domain\User.class
 com\xx\utils\UUIDUtil.class
 com\xx\settings\dao\UserDao.class
-com\xx\utils\DateTimeUtil.class
+com\xx\settings\service\UserService.class
 com\xx\utils\MD5Util.class
+com\xx\settings\controller\UserController.class
+com\xx\utils\PrintJson.class
+com\xx\settings\domain\User.class
+com\xx\settings\service\serviceimpl\UserServiceImpl.class
+com\xx\utils\DateTimeUtil.class

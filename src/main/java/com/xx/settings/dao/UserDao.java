@@ -1,5 +1,7 @@
 package com.xx.settings.dao;
 
-public interface UserDao {
+import com.xx.settings.domain.User;
 
+public interface UserDao {
+    User findByUsername(String username);
 }
