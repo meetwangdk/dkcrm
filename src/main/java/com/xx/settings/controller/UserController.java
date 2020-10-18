@@ -41,13 +41,13 @@ public class UserController {
                 }if (user.getExpireTime().compareTo(date) < 0){
                     throw  new LoginException("用户信息已经过时");
                 }
+                request.getSession().setAttribute("user",user);
                 flag = true;
             }
         }catch (Exception e){
             e.printStackTrace();
             msg = e.getMessage();
         }
-        System.out.println(111);
         map.put("msg",msg);
         map.put("flag",flag);
         map.put("page","workbench/index.jsp");

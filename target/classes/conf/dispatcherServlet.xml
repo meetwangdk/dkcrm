@@ -7,6 +7,7 @@
 
     <!--springmvc配置文件， 声明controller和其它web相关的对象-->
     <context:component-scan base-package="com.xx.settings.controller" />
+    <context:component-scan base-package="com.xx.workbench.controller" />
 
 <!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
 <!--        <property name="prefix" value="/WEB-INF/jsp/" />-->
@@ -26,8 +27,14 @@
       1. 响应ajax请求，返回json
         (帮助我们首先判断是否可以将处理器方法的返回值转换为var2格式的
            数据，如果可以再执行 " ObjectMapper "中的om.writeValueAsString 这个方法  p28集  )
-
-
       2. 解决静态资源访问问题。
     -->
+
+    <!--配置拦截器防止用户恶意登陆-->
+    <!--<mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.do"/>
+            <bean class="com.xx.settings.handler.MyInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
 </beans>
