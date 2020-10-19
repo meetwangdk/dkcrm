@@ -31,8 +31,14 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<Activity> queryActivity(String pageNO, String pageSize, String name, String owner, String startDate, String endDate) {
-        List<Activity> list = activityDao.selectActivity( pageNO, pageSize, name, owner, startDate, endDate);
+    public List<Activity> queryActivity(int startPage,int pageSize, String name, String owner, String startDate, String endDate) {
+        List<Activity> list = activityDao.selectActivity( startPage, pageSize, name, owner, startDate, endDate);
         return list;
+    }
+
+    @Override
+    public int selectCountActivity(String name, String owner, String startDate, String endDate) {
+        int total = activityDao.selectCountActivity(name, owner, startDate, endDate);
+        return total;
     }
 }

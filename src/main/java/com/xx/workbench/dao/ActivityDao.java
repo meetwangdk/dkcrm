@@ -10,10 +10,14 @@ public interface ActivityDao {
     int addActivity(Activity activity);
 
     List<Activity> selectActivity(
-            @Param("pageNo") String pageNO,
-            @Param("pageSize") String pageSize,
+            @Param("startPage") int startPage,
+            @Param("pageSize") int pageSize,
             @Param("name") String name,
             @Param("owner") String owner,
             @Param("startDate") String startDate,
             @Param("endDate") String endDate);
+    int selectCountActivity(@Param("name") String name,
+                            @Param("owner") String owner,
+                            @Param("startDate") String startDate,
+                            @Param("endDate") String endDate);
 }

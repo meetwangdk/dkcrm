@@ -12,10 +12,15 @@ public interface ActivityService {
 
     int saveActivity(Activity activity);
 
-    List<Activity> queryActivity( String pageNO,
-                                  String pageSize,
+    List<Activity> queryActivity( int startPage,
+                                  int pageSize,
                                   String name,
                                   String owner,
                                   String startDate,
                                   String endDate);
+    int selectCountActivity( String name,
+                             String owner,
+                             String startDate,
+                             String endDate);
+
 }

@@ -19,9 +19,10 @@
 	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
 
 	<%--加入分页插件(一定要加在bootstrap下面)--%>
-	<link rel="stylesheet" type="text/css" href="jquery/bs pagination/jquery.bs pagination. min.css">
+	<link rel="stylesheet" type="text/css" href="jquery/bs_pagination/jquery.bs_pagination.min.css">
 	<script type="text/javascript" src="jquery/bs_pagination/jquery.bs_pagination.min.js"></script>
-	<script type="text/javascript" src="jquery/bs pagination/en.js" ></script>
+	<script type="text/javascript" src="jquery/bs_pagination/en.js"></script>
+
 
 
 	<script type="text/javascript">
@@ -108,6 +109,9 @@
 			pageList(1,2);
 
 			$("#searchBut").click(function () {
+
+
+
 				pageList(1,2);
 			})
 		});
@@ -141,21 +145,43 @@
 				},
 				type:"post",
 				dataType:"json",
-				success:function (resp) {
+				success:function (data) {
 					/*console.log($("#activity-body"))*/
-					var total = resp.total;
-					var html = "";
-					$("#total").html(total);
-				    $.each(resp.list,function (i,n) {
-                        html += "<tr class='active'>";
-                        html += "    <td><input type='checkbox' value='n.id'/></td>";
-                        html += "    <td><a style='text-decoration: none; cursor: pointer;' onclick='window.location.href='detail.jsp';'>"+n.name+"</a></td>";
-                        html += "    <td>"+n.owner+"</td>";
-                        html += "    <td>"+n.startDate+"</td>";
-                        html += "    <td>"+n.endDate+"</td>";
-                        html += "</tr>";
-                    })
-					$("#activity-body").html(html);
+					var total = data.total;
+					console.log("total"+total);
+					//$("#total").html(total);
+					let html = "";
+					$.each(data.list,function (i,activity) {
+						html += '<tr class="active">';
+						html += '<td><input type="checkbox" class="inputName" value="'+activity.id+'" /></td>';
+						html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="href = \'workbench/activity/detailActivityById?id='+activity.id+'\'">'+activity.name+'</a></td>';
+						html += '<td>'+activity.owner+'</td>';
+						html += '<td>'+activity.startDate+'</td>';
+						html += '<td>'+activity.endDate+'</td>';
+						html += '</tr>'
+					})
+					$("#activityBody").html(html);
+				    /*计算总的页数*/
+					var totalPages =  Math.ceil(data.total/pageSize) ;
+							//data.total%pageSize==0?data.total/pageSize:(parseInt(data.total/pageSize)+1);
+					console.log("totalPages"+totalPages);
+					//数据处理完毕后，结合分页查询，对前端展现分页信息
+					$("#activityPage").bs_pagination({
+						currentPage: pageNo, // 页码
+						rowsPerPage: pageSize, // 每页显示的记录条数
+						maxRowsPerPage: 20, // 每页最多显示的记录条数
+						totalPages: totalPages, // 总页数
+						totalRows: data.total, // 总记录条数
+						visiblePageLinks: 3, // 显示几个卡片
+						showGoToPage: true,
+						showRowsPerPage: true,
+						showRowsInfo: true,
+						showRowsDefaultInfo: true,
+						/*该回调函数在我们点击分页组件的时候*/
+						onChangePage : function(event, data){
+							pageList(data.currentPage , data.rowsPerPage);
+						}
+					})
 				}
 			})
 		}
@@ -163,6 +189,11 @@
 	</script>
 </head>
 <body>
+<%--创建4个隐藏域--%>
+<input type="hidden" id="hid-name"/>
+<input type="hidden" id="hid-owner"/>
+<input type="hidden" id="hid-startDate"/>
+<input type="hidden" id="hid-endDate"/>
 
 <!-- 创建市场活动的模态窗口 -->
 <div class="modal fade" id="createActivityModal" role="dialog">
@@ -318,7 +349,7 @@
 				<div class="form-group">
 					<div class="input-group">
 						<div class="input-group-addon">所有者</div>
-						<input class="form-control" type="text" id="serch-owner">
+						<input class="form-control" type="text" id="search-owner">
 					</div>
 				</div>
 
@@ -369,7 +400,7 @@
 					<td>结束日期</td>
 				</tr>
 				</thead>
-				<tbody id="activity-body">
+				<tbody id="activityBody">
 				<%--<tr class="active">
 					<td><input type="checkbox" /></td>
 					<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/activity/detail.jsp';">发传单</a></td>
@@ -389,7 +420,7 @@
 		</div>
 
 		<div style="height: 50px; position: relative;top: 30px;">
-			<div>
+			<%--<div>
 				<button type="button" class="btn btn-default" style="cursor: default;">共<b id="total"></b>条记录</button>
 			</div>
 			<div class="btn-group" style="position: relative;top: -34px; left: 110px;">
@@ -405,8 +436,8 @@
 					</ul>
 				</div>
 				<button type="button" class="btn btn-default" style="cursor: default;">条/页</button>
-			</div>
-			<div style="position: relative;top: -88px; left: 285px;">
+			</div>--%>
+			<%--<div style="position: relative;top: -88px; left: 285px;">
 				<nav>
 					<ul class="pagination">
 						<li class="disabled"><a href="#">首页</a></li>
@@ -420,11 +451,13 @@
 						<li class="disabled"><a href="#">末页</a></li>
 					</ul>
 				</nav>
-			</div>
+			</div>--%>
+			<div id="activityPage"></divid>
 		</div>
 
 	</div>
 
+</div>
 </div>
 </body>
 </html>

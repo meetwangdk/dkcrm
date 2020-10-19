@@ -48,20 +48,21 @@ public class ActivityController {
 
     @RequestMapping("/pageList.do")
     @ResponseBody
-    public Map<String,Object> pageList(String pageNO, String pageSize, String name, String owner, String startDate, String endDate){
-        /*int no =  Integer.valueOf(pageNO);
-        int size = Integer.valueOf(pageSize);
-        int startPage = (no-1)*size;
-        String s = startPage+"";*/
+    public Map<String,Object> pageList(String pageNo, String pageSize, String name, String owner, String startDate, String endDate){
+
         /*   一共12条记录
            第一页： 1   5   展示5条记录
         *  第二页： 5   5   展示5条记录
         *  第二页： 10  5   展示两条记录
         *   所以的出来结论就是（pageNo-1）*pageSize
         * */
-        List<Activity> list = activityService.queryActivity(pageNO,pageSize,name,owner,startDate,endDate);
+        int no =  Integer.valueOf(pageNo);
+        int size = Integer.valueOf(pageSize);
+        int startPage = (no-1)*size;
+        List<Activity> list = activityService.queryActivity(startPage,size,name,owner,startDate,endDate);
+        int total = activityService.selectCountActivity(name, owner, startDate, endDate);
         Map<String,Object> map = new HashMap();
-        map.put("total",list.size());
+        map.put("total",total);
         map.put("list",list);
         return map;
     }
