@@ -18,7 +18,10 @@
 	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
 
-
+	<%--加入分页插件(一定要加在bootstrap下面)--%>
+	<link rel="stylesheet" type="text/css" href="jquery/bs pagination/jquery.bs pagination. min.css">
+	<script type="text/javascript" src="jquery/bs_pagination/jquery.bs_pagination.min.js"></script>
+	<script type="text/javascript" src="jquery/bs pagination/en.js" ></script>
 
 
 	<script type="text/javascript">
