@@ -119,6 +119,27 @@
 
 				pageList(1,2);
 			})
+/*
+			将复选框进行全选操作
+*/
+			$("#selectAll").click(function () {
+				$("input[name=check]").prop("checked",this.checked);
+			})
+			//以下这种做法是不行的
+			/*$("input[name=xz]").click(function () {
+            alert(123);
+            })*/
+
+			//因为动态生成的元素，是不能够以普通绑定事件的形式来进行操作的
+			/*动态生成的元素，我们要以on方法的形式来触发事件
+				语法:
+					$(需要绑定元素的有效的外层元素). on(绑定事件的方式,需要绑定的元素的jquery对象,回调函数)
+			*/
+			$("#activityBody").on("click",$("input[name=xz]"),function () {
+				$("#selectAll").prop("checked",$("input[name=check]").length ==$("input[name=check]:checked").length)
+			})
+
+
 		});
 
 		/*对于所有的关系型数据库，做前端的分页相关操作的基础组件
@@ -163,7 +184,7 @@
 					let html = "";
 					$.each(data.list,function (i,activity) {
 						html += '<tr class="active">';
-						html += '<td><input type="checkbox" class="inputName" value="'+activity.id+'" /></td>';
+						html += '<td><input type="checkbox" class="inputName" name="check" value="'+activity.id+'" /></td>';
 						html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="href = \'workbench/activity/detailActivityById?id='+activity.id+'\'">'+activity.name+'</a></td>';
 						html += '<td>'+activity.owner+'</td>';
 						html += '<td>'+activity.startDate+'</td>';
@@ -403,7 +424,7 @@
 			<table class="table table-hover">
 				<thead>
 				<tr style="color: #B3B3B3;">
-					<td><input type="checkbox" /></td>
+					<td><input type="checkbox" id="selectAll"/></td>
 					<td>名称</td>
 					<td>所有者</td>
 					<td>开始日期</td>
