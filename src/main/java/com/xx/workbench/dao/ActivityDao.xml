@@ -6,4 +6,30 @@
     <insert id="addActivity" >
         insert into tbl_activity(id,owner,name,startDate,endDate,cost,description,createTime,createBy) VALUES (#{id},#{owner},#{name},#{startDate},#{endDate},#{cost},#{description},#{createTime},#{createBy})
     </insert>
+
+    <select id="selectActivity" resultType="Activity">
+        select
+        a.name,
+        a.startDate,
+        u.name as owner,
+        a.endDate
+        from tbl_activity a
+        join tbl_user u
+        on a.owner = u.id
+        <where>
+            <if test="name!=null and name!=''">
+                a.name like '%' #{name} '%'
+            </if>
+            <if test="owner!=null and owner != ''">
+               and owner like '%' #{owner} '%'
+            </if>
+            <if test="startDate !=null and startDate != ''">
+              and  startDate &gt; #{startDate}
+            </if>
+            <if test="endDate!=null and endDate != ''">
+              and  endDate &lt; #{endDate}
+            </if>
+            order by a.createTime desc
+        </where>
+    </select>
 </mapper>

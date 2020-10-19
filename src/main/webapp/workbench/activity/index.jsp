@@ -9,12 +9,17 @@
 
 
 	<link href="jquery/bootstrap_3.3.0/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+	<%--加入日历插件--%>
 	<link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
-
 	<script type="text/javascript" src="jquery/jquery-1.11.1-min.js"></script>
 	<script type="text/javascript" src="jquery/bootstrap_3.3.0/js/bootstrap.min.js"></script>
+
+	<%--加入日历插件--%>
 	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/js/bootstrap-datetimepicker.js"></script>
 	<script type="text/javascript" src="jquery/bootstrap-datetimepicker-master/locale/bootstrap-datetimepicker.zh-CN.js"></script>
+
+
+
 
 	<script type="text/javascript">
 
@@ -85,10 +90,7 @@
 							*		$(dom对象)
 							*
 							* */
-						$("#resetActivityForm").get[0].reset();
-
-
-
+							$("#resetActivityForm").get[0].reset();
 							$("#createActivityModal").modal("hide")
 
 						}
@@ -99,7 +101,61 @@
 
 				})
 			})
+
+			pageList(1,2);
+
+			$("#searchBut").click(function () {
+				pageList(1,2);
+			})
 		});
+
+		/*对于所有的关系型数据库，做前端的分页相关操作的基础组件
+			就是pageNo和pageSize
+			pageNo:页码
+			pageSize:每页展现的记录数
+			pagelist方法:就是发出ajax请求到后台，从后台取得最新的市场活动信息列表数据
+			通过响应回来的数据，局部刷新市场活动信息列表
+			我们都在哪些情况下，需要调用pagelist方法 (什么情况下需要刷新一下市场活动列表)
+			(1)点击左侧菜单中的“市场活动"超链接，需要刷新市场活动列表，调用pageList方法
+			(2)添加，修改，删除后，需要刷新市场活动列表，调用pagelist方法
+			(3)点击查询按钮的时候，需要刷新市场活动列表，调用pagelist方法
+			(4)点击分页组件的时候，调用pagelist方法
+			
+			以上为pagelist方法制定了六个入口，也就是说，在以上6个操作执行完毕后，我们必须要调用pagelist方法，刷新市场活动信息列表
+
+		*/
+		function pageList(pageNo,pageSize) {
+
+			$.ajax({
+				url:"workbench/activity/pageList.do",
+				data:{
+					"pageNo":pageNo,
+					"pageSize":pageSize,
+					"name":$.trim($("#search-name").val()),
+					"owner":$.trim($("#search-owner").val()),
+					"startDate":$.trim($("#search-startDate").val()),
+					"endDate":$.trim($("#search-endDate").val())
+				},
+				type:"post",
+				dataType:"json",
+				success:function (resp) {
+					/*console.log($("#activity-body"))*/
+					var total = resp.total;
+					var html = "";
+					$("#total").html(total);
+				    $.each(resp.list,function (i,n) {
+                        html += "<tr class='active'>";
+                        html += "    <td><input type='checkbox' value='n.id'/></td>";
+                        html += "    <td><a style='text-decoration: none; cursor: pointer;' onclick='window.location.href='detail.jsp';'>"+n.name+"</a></td>";
+                        html += "    <td>"+n.owner+"</td>";
+                        html += "    <td>"+n.startDate+"</td>";
+                        html += "    <td>"+n.endDate+"</td>";
+                        html += "</tr>";
+                    })
+					$("#activity-body").html(html);
+				}
+			})
+		}
 
 	</script>
 </head>
@@ -252,14 +308,14 @@
 				<div class="form-group">
 					<div class="input-group">
 						<div class="input-group-addon">名称</div>
-						<input class="form-control" type="text">
+						<input class="form-control" type="text" id="search-name">
 					</div>
 				</div>
 
 				<div class="form-group">
 					<div class="input-group">
 						<div class="input-group-addon">所有者</div>
-						<input class="form-control" type="text">
+						<input class="form-control" type="text" id="serch-owner">
 					</div>
 				</div>
 
@@ -267,17 +323,17 @@
 				<div class="form-group">
 					<div class="input-group">
 						<div class="input-group-addon">开始日期</div>
-						<input class="form-control" type="text" id="startTime" />
+						<input class="form-control" type="text" id="search-startDate" />
 					</div>
 				</div>
 				<div class="form-group">
 					<div class="input-group">
 						<div class="input-group-addon">结束日期</div>
-						<input class="form-control" type="text" id="endTime">
+						<input class="form-control" type="text" id="search-endDate">
 					</div>
 				</div>
 
-				<button type="submit" class="btn btn-default">查询</button>
+				<button type="button" class="btn btn-default" id="searchBut">查询</button>
 
 			</form>
 		</div>
@@ -310,8 +366,8 @@
 					<td>结束日期</td>
 				</tr>
 				</thead>
-				<tbody>
-				<tr class="active">
+				<tbody id="activity-body">
+				<%--<tr class="active">
 					<td><input type="checkbox" /></td>
 					<td><a style="text-decoration: none; cursor: pointer;" onclick="window.location.href='workbench/activity/detail.jsp';">发传单</a></td>
 					<td>zhangsan</td>
@@ -324,14 +380,14 @@
 					<td>zhangsan</td>
 					<td>2020-10-10</td>
 					<td>2020-10-20</td>
-				</tr>
+				</tr>--%>
 				</tbody>
 			</table>
 		</div>
 
 		<div style="height: 50px; position: relative;top: 30px;">
 			<div>
-				<button type="button" class="btn btn-default" style="cursor: default;">共<b>50</b>条记录</button>
+				<button type="button" class="btn btn-default" style="cursor: default;">共<b id="total"></b>条记录</button>
 			</div>
 			<div class="btn-group" style="position: relative;top: -34px; left: 110px;">
 				<button type="button" class="btn btn-default" style="cursor: default;">显示</button>

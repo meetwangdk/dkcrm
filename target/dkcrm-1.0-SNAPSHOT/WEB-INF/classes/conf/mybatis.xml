@@ -2,12 +2,14 @@
 <!DOCTYPE configuration
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
 <configuration>
 
     <!--settings：控制mybatis全局行为-->
     <settings>
         <!--设置mybatis输出日志-->
         <setting name="logImpl" value="STDOUT_LOGGING"/>
+
     </settings>
 
     <!--设置别名-->
@@ -30,4 +32,6 @@
         <package name="com.xx.workbench.dao"/>
 
     </mappers>
+    <!-- 配置分页插件 -->
+
 </configuration>

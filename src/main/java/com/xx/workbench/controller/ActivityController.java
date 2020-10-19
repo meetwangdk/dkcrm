@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.ClientInfoStatus;
 import java.util.*;
 
 @Controller
@@ -41,6 +43,26 @@ public class ActivityController {
         Map<String,Object> map = new HashMap();
         map.put("activity",activity);
         map.put("success",flag);
+        return map;
+    }
+
+    @RequestMapping("/pageList.do")
+    @ResponseBody
+    public Map<String,Object> pageList(String pageNO, String pageSize, String name, String owner, String startDate, String endDate){
+        /*int no =  Integer.valueOf(pageNO);
+        int size = Integer.valueOf(pageSize);
+        int startPage = (no-1)*size;
+        String s = startPage+"";*/
+        /*   一共12条记录
+           第一页： 1   5   展示5条记录
+        *  第二页： 5   5   展示5条记录
+        *  第二页： 10  5   展示两条记录
+        *   所以的出来结论就是（pageNo-1）*pageSize
+        * */
+        List<Activity> list = activityService.queryActivity(pageNO,pageSize,name,owner,startDate,endDate);
+        Map<String,Object> map = new HashMap();
+        map.put("total",list.size());
+        map.put("list",list);
         return map;
     }
 }

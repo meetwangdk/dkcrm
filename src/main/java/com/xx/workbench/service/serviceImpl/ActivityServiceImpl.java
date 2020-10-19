@@ -29,4 +29,10 @@ public class ActivityServiceImpl implements ActivityService {
         return res;
 
     }
+
+    @Override
+    public List<Activity> queryActivity(String pageNO, String pageSize, String name, String owner, String startDate, String endDate) {
+        List<Activity> list = activityDao.selectActivity( pageNO, pageSize, name, owner, startDate, endDate);
+        return list;
+    }
 }
