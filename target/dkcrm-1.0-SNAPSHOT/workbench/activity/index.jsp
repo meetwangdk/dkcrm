@@ -109,6 +109,14 @@
 			pageList(1,2);
 
 			$("#searchBut").click(function () {
+
+				/*将搜索框中的数据保存到隐藏域当中*/
+				$("#hid-name").val($.trim($("#search-name").val()));
+				$("#hid-owner").val($.trim($("#search-owner").val()));
+				$("#hid-startDate").val($.trim($("#search-startDate").val()));
+				$("#hid-endDate").val($.trim($("#search-endDate").val()));
+
+
 				pageList(1,2);
 			})
 		});
@@ -129,6 +137,11 @@
 
 		*/
 		function pageList(pageNo,pageSize) {
+
+			$("#search-name").val($.trim($("#hid-name").val()));
+			$("#search-owner").val($.trim($("#hid-owner").val()));
+			$("#search-startDate").val($.trim($("#hid-startDate").val()));
+			$("#search-endDate").val($.trim($("#hid-endDate").val()));
 
 			$.ajax({
 				url:"workbench/activity/pageList.do",
@@ -186,6 +199,11 @@
 	</script>
 </head>
 <body>
+<%--创建4个隐藏域--%>
+<input type="hidden" id="hid-name"/>
+<input type="hidden" id="hid-owner"/>
+<input type="hidden" id="hid-startDate"/>
+<input type="hidden" id="hid-endDate"/>
 
 <!-- 创建市场活动的模态窗口 -->
 <div class="modal fade" id="createActivityModal" role="dialog">
@@ -341,7 +359,7 @@
 				<div class="form-group">
 					<div class="input-group">
 						<div class="input-group-addon">所有者</div>
-						<input class="form-control" type="text" id="serch-owner">
+						<input class="form-control" type="text" id="search-owner">
 					</div>
 				</div>
 

@@ -110,6 +110,11 @@
 
 			$("#searchBut").click(function () {
 
+				/*将搜索框中的数据保存到隐藏域当中*/
+				$("#hid-name").val($.trim($("#search-name").val()));
+				$("#hid-owner").val($.trim($("#search-owner").val()));
+				$("#hid-startDate").val($.trim($("#search-startDate").val()));
+				$("#hid-endDate").val($.trim($("#search-endDate").val()));
 
 
 				pageList(1,2);
@@ -132,6 +137,11 @@
 
 		*/
 		function pageList(pageNo,pageSize) {
+
+			$("#search-name").val($.trim($("#hid-name").val()));
+			$("#search-owner").val($.trim($("#hid-owner").val()));
+			$("#search-startDate").val($.trim($("#hid-startDate").val()));
+			$("#search-endDate").val($.trim($("#hid-endDate").val()));
 
 			$.ajax({
 				url:"workbench/activity/pageList.do",
