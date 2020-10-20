@@ -3,12 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.xx.workbench.dao.ActivityDao">
+
     <insert id="addActivity" >
         insert into tbl_activity(id,owner,name,startDate,endDate,cost,description,createTime,createBy) VALUES (#{id},#{owner},#{name},#{startDate},#{endDate},#{cost},#{description},#{createTime},#{createBy})
     </insert>
 
     <select id="selectActivity" resultType="Activity">
         select
+        a.id,
         a.name,
         a.startDate,
         u.name as owner,
@@ -54,5 +56,19 @@
               and  endDate &lt;= #{endDate}
             </if>
         </where>
+    </select>
+
+    <delete id="removeActivityById">
+        delete from tbl_activity where id in
+        <foreach collection="array" item="id" open="(" close=")"  separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectActivityById" resultType="int">
+        select count(*) from tbl_activity where id in
+        <foreach collection="array" item="id" open="(" close=")"  separator=",">
+            #{id}
+        </foreach>
     </select>
 </mapper>

@@ -19,15 +19,15 @@ public class LoginFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest)servletRequest;
         HttpServletResponse httpServletResponse = (HttpServletResponse)servletResponse;
         User user = (User) httpServletRequest.getSession().getAttribute("user");
-        System.out.println(user);
+        /*System.out.println(user);*/
         String path = httpServletRequest.getServletPath();
-        System.out.println("地址是:" + httpServletRequest.getServletPath());
+        /*System.out.println("地址是:" + httpServletRequest.getServletPath());*/
         if ("/login.jsp".equals(path) || "/settings/user/login.do".equals(path)){
             filterChain.doFilter(servletRequest,servletResponse);
         }
         /*在Session域中拿对象*/
         else if (user != null ){
-            System.out.println("session中的对象" + user);
+           /* System.out.println("session中的对象" + user);*/
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             System.out.println(" 拦截非法用户请求 ");

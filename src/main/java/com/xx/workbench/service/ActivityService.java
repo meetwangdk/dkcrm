@@ -22,5 +22,5 @@ public interface ActivityService {
                              String owner,
                              String startDate,
                              String endDate);
-
+    boolean removeActivityById(String[] ids);
 }

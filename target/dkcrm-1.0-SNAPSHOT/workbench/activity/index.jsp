@@ -86,7 +86,7 @@
 					dataType: "json",
 					success:function (resp) {
 						if(resp.success){
-							alert("保存成功")
+							alert("保存成功");
 							/*点击保存过后需要将表单重置
 							* jQuery对象如何转换为Dom对象：
 							* 		jQuery对象[数字下标]
@@ -94,14 +94,16 @@
 							*		$(dom对象)
 							*
 							* */
-							$("#resetActivityForm").get[0].reset();
-							$("#createActivityModal").modal("hide")
-
+							$("#createActivityModal").modal("hide");
+							$("#resetActivityForm")[0].reset();
+							pageList(1,2);
 						}
 						else{
 							alert("保存失败")
 						}
+
 					}
+
 
 				})
 			})
@@ -140,6 +142,43 @@
 			})
 
 
+
+			/*对于删除操作，data数据使用json格式的拼接比较麻烦，并且key不能重复\
+			* 但是具有多个id值因此我们取普通的字符串拼接的方式来完成
+			* 	http://localhost:8080:/dkcrm/workbench/activity/removeActivity.do?id=?????&id=?????.....
+			* */
+			/*下面几行代码是为了拼接：id=?????&id=?????....*/
+			$("#removeActivity").click(function () {
+				if ($("input[name=check]:checked").length == 0){
+					alert("请选择您要删除的市场活动")
+				}else{
+				var $xz = $("input[name=check]:checked");
+				var param = ""
+				/*这个地方得到的是选中的jquery对象*/
+				for(var i = 0; i<$xz.length ;i++){
+					param += "id="+$($xz[i]).val()
+					if ( i<($xz.length-1)){
+						param += "&"
+						}
+					}
+					if (confirm("确定删除该选中数据吗？")){
+						$.ajax({
+							url:"workbench/activity/removeActivity.do",
+							type:"post",
+							data:param,
+							dataType:"json",
+							success:function (data) {
+								if (data == true ){
+									pageList(1,2);}
+								else {
+									alert("删除失败")
+								}
+							}
+						})
+					}
+
+				}
+			})
 		});
 
 		/*对于所有的关系型数据库，做前端的分页相关操作的基础组件
@@ -158,7 +197,7 @@
 
 		*/
 		function pageList(pageNo,pageSize) {
-
+			$("#selectAll").prop("checked",false);
 			$("#search-name").val($.trim($("#hid-name").val()));
 			$("#search-owner").val($.trim($("#hid-owner").val()));
 			$("#search-startDate").val($.trim($("#hid-startDate").val()));
@@ -416,7 +455,7 @@
                 --%>
 				<button type="button" class="btn btn-primary" id="addBtn"><span class="glyphicon glyphicon-plus"></span> 创建</button>
 				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
-				<button type="button" class="btn btn-danger"><span class="glyphicon glyphicon-minus"></span> 删除</button>
+				<button type="button" class="btn btn-danger" id="removeActivity"><span class="glyphicon glyphicon-minus"></span> 删除</button>
 			</div>
 
 		</div>

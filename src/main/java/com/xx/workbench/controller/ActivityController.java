@@ -7,6 +7,7 @@ import com.xx.workbench.domain.Activity;
 import com.xx.workbench.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -65,5 +66,13 @@ public class ActivityController {
         map.put("total",total);
         map.put("list",list);
         return map;
+    }
+    @RequestMapping("/removeActivity.do")
+    @ResponseBody
+    @Transactional
+    public boolean removeActivity(HttpServletRequest request){
+        String[] ids = request.getParameterValues("id");
+        boolean flag = activityService.removeActivityById(ids);
+        return flag;
     }
 }

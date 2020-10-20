@@ -1,4 +1,5 @@
 com\xx\utils\UUIDUtil.class
+com\xx\workbench\dao\ActivityRemarkDao.class
 com\xx\settings\Test.class
 com\xx\utils\PrintJson.class
 com\xx\settings\domain\User.class
@@ -6,7 +7,6 @@ com\xx\workbench\service\ActivityService.class
 com\xx\settings\service\serviceimpl\UserServiceImpl.class
 com\xx\settings\exception\LoginException.class
 com\xx\utils\DateTimeUtil.class
-com\xx\workbench\dao\ActivityRemark.class
 com\xx\workbench\service\serviceImpl\ActivityServiceImpl.class
 com\xx\settings\web_filter\LoginFilter.class
 com\xx\workbench\controller\ActivityController.class
@@ -16,6 +16,7 @@ com\xx\settings\service\UserService.class
 com\xx\utils\MD5Util.class
 com\xx\workbench\domain\Activity.class
 com\xx\settings\controller\UserController.class
+com\xx\workbench\exception\RemoveException.class
 com\xx\settings\handler\MyInterceptor.class
 com\xx\workbench\dao\ActivityDao.class
 com\xx\workbench\domain\ActivityRemark.class

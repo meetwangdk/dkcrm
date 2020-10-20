@@ -20,4 +20,7 @@ public interface ActivityDao {
                             @Param("owner") String owner,
                             @Param("startDate") String startDate,
                             @Param("endDate") String endDate);
+
+    int removeActivityById(String[] ids);
+    int selectActivityById(String[] ids);
 }
