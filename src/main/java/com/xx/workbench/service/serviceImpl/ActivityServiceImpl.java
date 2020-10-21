@@ -47,17 +47,17 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public boolean removeActivityById(String[] ids) throws RemoveException {
+    public boolean removeActivityByIds(String[] ids) throws RemoveException {
         boolean flag = true;
         try {
-            int count1 = activityRemarkDao.selectByActivityId(ids);
-            int count2 = activityRemarkDao.removeByActivityId(ids);
+            int count1 = activityRemarkDao.selectByActivityIds(ids);
+            int count2 = activityRemarkDao.removeByActivityIds(ids);
             if (count1 != count2){
                 flag = false;
                 throw new RemoveException("查询与删除数目不对移除失败");
             }
-            int count3 = activityDao.selectActivityById(ids);
-            int count4 = activityDao.removeActivityById(ids);
+            int count3 = activityDao.selectActivityByIds(ids);
+            int count4 = activityDao.removeActivityByIds(ids);
             if (count3 !=count4){
                 flag = false;
                 throw new RemoveException("查询与删除数目不对移除失败");
@@ -66,6 +66,28 @@ public class ActivityServiceImpl implements ActivityService {
             e.printStackTrace();
         }
 
+        return flag;
+    }
+
+    @Override
+    public Activity selectActivityById(String id) {
+        Activity activity = activityDao.selectActivityById(id);
+        return activity;
+    }
+
+    @Override
+    public boolean updateActivity(
+            String owner, String id,
+            String name ,
+            String startDate ,
+            String endDate ,
+            String cost ,
+            String description) {
+        boolean flag = false;
+        int i = activityDao.updateActivity(owner,id,name,startDate,endDate,cost,description);
+        if ( i > 0 ){
+            flag = true;
+        }
         return flag;
     }
 }

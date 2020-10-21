@@ -26,7 +26,6 @@
 
 
 	<script type="text/javascript">
-
 		$(function(){
 			/*添加时间日期插件*/
 			$(".time").datetimepicker({
@@ -41,8 +40,6 @@
 			/*为按钮绑定一个模态窗口
             * 需要操作的模态窗口的jquery对象。调用modal方法， 为该方法传递参数show:打开模态窗口hide: 关闭模态窗口*/
 			$("#addBtn").click(function () {
-
-
 				/*为下拉列表铺值*/
 				var html = "";
 				$.ajax({
@@ -64,13 +61,14 @@
 								$("#create-owner").val(user)
 								/*处理完下拉框中的数据后打开模态窗口*/
 								$("#createActivityModal").modal("show");
-
 							}
-						}
-				)
-
+				})
 			})
-			/*保存活动信息*/
+
+
+			/*
+			保存活动信息模
+			块*/
 			$("#saveBtn").click(function () {
 				$.ajax({
 					url:"workbench/activity/addActivity.do",
@@ -109,21 +107,25 @@
 			})
 
 			pageList(1,2);
-
+			/*为了解决在改变当前搜索框中的内容，但不点击查询，
+			之后点击下一页出现搜索当前收索框中的内同进行展现的问题
+			通过一个隐藏域进行传递值保存值
+			*/
 			$("#searchBut").click(function () {
-
 				/*将搜索框中的数据保存到隐藏域当中*/
 				$("#hid-name").val($.trim($("#search-name").val()));
 				$("#hid-owner").val($.trim($("#search-owner").val()));
 				$("#hid-startDate").val($.trim($("#search-startDate").val()));
 				$("#hid-endDate").val($.trim($("#search-endDate").val()));
-
-
 				pageList(1,2);
 			})
-/*
-			将复选框进行全选操作
-*/
+
+
+
+			/*将复选框进行全选操作
+			* 以及活动删除功能的实现
+			* */
+
 			$("#selectAll").click(function () {
 				$("input[name=check]").prop("checked",this.checked);
 			})
@@ -179,7 +181,115 @@
 
 				}
 			})
+
+
+			/*实现活动修改内容
+			* 	第一步：先将查询的结果展示给前台页面
+			* 	第二部：将前台输出的结果更新到后台页面
+			* */
+			$("#editActivity").click(function () {
+				var html = "";
+				$.ajax({
+					url:"workbench/activity/getUserList.do",
+					data:{
+					},
+					type:"get",
+					dataType:"json",
+					success:function (resp) {
+						/*遍历出来的每一个n都是一个User对象*/
+						$.each(resp,function(i,n) {
+							/*做一个拼接*/
+							html +=  "<option value='"+n.id+"'>"+n.name+"</option>";
+						})
+						$("#edit-marketActivityOwner").html(html)
+						/*处理完下拉框中的数据后打开模态窗口*/
+					}
+				})
+				var id = $("input[name=check]:checked").val();
+				$.ajax({
+					url:"workbench/activity/editActivity.do",
+					data:{
+						id:id
+					},
+					type:"post",
+					datatype:"json",
+					success:function (data) {
+						$("#editActivityModal").modal("show");
+						$("#edit-marketActivityName").val(data.name);
+						$("#edit-startTime").val(data.startDate);
+						$("#edit-endTime").val(data.endDate);
+						$("#edit-cost").val(data.cost);
+						$("#edit-describe").val(data.description);
+					}
+				})
+				/* 开始实行更新内容 */
+				$("#updateBtn").click(function () {
+					$.ajax({
+						url:"workbench/activity/updateActivity.do",
+						data:{
+							/*owner:$.trim($("#edit-marketActivityOwner option:selected").val()),*/
+							owner:$.trim($("#edit-marketActivityOwner").val()),
+
+							id:$.trim($("input[name=check]:checked").val()),
+							name:$.trim($("#edit-marketActivityName").val()),
+							startDate:$.trim($("#edit-startTime").val()),
+							endDate:$.trim($("#edit-endTime").val()),
+							cost:$.trim($("#edit-cost").val()),
+							description:$.trim($("#edit-describe").val())
+						},
+						type:"post",
+						dataType:"json",
+						success:function (data) {
+							if (data == true){
+								pageList(1,2);
+								$("#editActivityModal").modal("hide");
+								alert("更新成功");
+								console.log($.trim($("#edit-marketActivityOwner").val()));
+							}
+							else{
+								alert("更新失败")
+							}
+						}
+					})
+
+
+				})
+
+
+
+			})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 		});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		/*对于所有的关系型数据库，做前端的分页相关操作的基础组件
 			就是pageNo和pageSize
@@ -218,7 +328,7 @@
 				success:function (data) {
 					/*console.log($("#activity-body"))*/
 					var total = data.total;
-					console.log("total"+total);
+					/*console.log("total"+total);*/
 					//$("#total").html(total);
 					let html = "";
 					$.each(data.list,function (i,activity) {
@@ -234,7 +344,7 @@
 				    /*计算总的页数*/
 					var totalPages =  Math.ceil(data.total/pageSize) ;
 							//data.total%pageSize==0?data.total/pageSize:(parseInt(data.total/pageSize)+1);
-					console.log("totalPages"+totalPages);
+					/*console.log("totalPages"+totalPages);*/
 					//数据处理完毕后，结合分页查询，对前端展现分页信息
 					$("#activityPage").bs_pagination({
 						currentPage: pageNo, // 页码
@@ -344,41 +454,41 @@
 			<div class="modal-body">
 
 				<form class="form-horizontal" role="form">
-
 					<div class="form-group">
 						<label for="edit-marketActivityOwner" class="col-sm-2 control-label">所有者<span style="font-size: 15px; color: red;">*</span></label>
 						<div class="col-sm-10" style="width: 300px;">
 							<select class="form-control" id="edit-marketActivityOwner">
+
 							</select>
 						</div>
 						<label for="edit-marketActivityName" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
 						<div class="col-sm-10" style="width: 300px;">
-							<input type="text" class="form-control" id="edit-marketActivityName" value="发传单">
+							<input type="text" class="form-control" id="edit-marketActivityName">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="edit-startTime" class="col-sm-2 control-label">开始日期</label>
 						<div class="col-sm-10" style="width: 300px;">
-							<input type="text" class="form-control" id="edit-startTime" value="2020-10-10">
+							<input type="text" class="form-control" id="edit-startTime">
 						</div>
 						<label for="edit-endTime" class="col-sm-2 control-label">结束日期</label>
 						<div class="col-sm-10" style="width: 300px;">
-							<input type="text" class="form-control" id="edit-endTime" value="2020-10-20">
+							<input type="text" class="form-control" id="edit-endTime">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="edit-cost" class="col-sm-2 control-label">成本</label>
 						<div class="col-sm-10" style="width: 300px;">
-							<input type="text" class="form-control" id="edit-cost" value="5,000">
+							<input type="text" class="form-control" id="edit-cost">
 						</div>
 					</div>
 
 					<div class="form-group">
 						<label for="edit-describe" class="col-sm-2 control-label">描述</label>
 						<div class="col-sm-10" style="width: 81%;">
-							<textarea class="form-control" rows="3" id="edit-describe">市场活动Marketing，是指品牌主办或参与的展览会议与公关市场活动，包括自行主办的各类研讨会、客户交流会、演示会、新产品发布会、体验会、答谢会、年会和出席参加并布展或演讲的展览会、研讨会、行业交流会、颁奖典礼等</textarea>
+							<textarea class="form-control" rows="3" id="edit-describe"></textarea>
 						</div>
 					</div>
 
@@ -387,7 +497,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-				<button type="button" class="btn btn-primary" data-dismiss="modal">更新</button>
+				<button type="button" class="btn btn-primary" id="updateBtn">更新</button>
 			</div>
 		</div>
 	</div>
@@ -450,11 +560,9 @@
                 data-target
                     表示我要打开哪个模态窗口。。。
                     data-toggle="modal" data-target="#createActivityModal"
-
-
                 --%>
 				<button type="button" class="btn btn-primary" id="addBtn"><span class="glyphicon glyphicon-plus"></span> 创建</button>
-				<button type="button" class="btn btn-default" data-toggle="modal" data-target="#editActivityModal"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
+				<button type="button" class="btn btn-default" id="editActivity"><span class="glyphicon glyphicon-pencil"></span> 修改</button>
 				<button type="button" class="btn btn-danger" id="removeActivity"><span class="glyphicon glyphicon-minus"></span> 删除</button>
 			</div>
 

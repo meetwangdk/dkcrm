@@ -23,13 +23,13 @@
                 a.name like '%' #{name} '%'
             </if>
             <if test="owner!=null and owner != ''">
-               and owner like '%' #{owner} '%'
+                and owner like '%' #{owner} '%'
             </if>
             <if test="startDate !=null and startDate != ''">
-              and  startDate &gt;= #{startDate}
+                and  startDate &gt;= #{startDate}
             </if>
             <if test="endDate!=null and endDate != ''">
-              and  endDate &lt;= #{endDate}
+                and  endDate &lt;= #{endDate}
             </if>
         </where>
 
@@ -47,28 +47,60 @@
                 a.name like '%' #{name} '%'
             </if>
             <if test="owner!=null and owner != ''">
-               and owner like '%' #{owner} '%'
+                and owner like '%' #{owner} '%'
             </if>
             <if test="startDate !=null and startDate != ''">
-              and  startDate &gt;= #{startDate}
+                and  startDate &gt;= #{startDate}
             </if>
             <if test="endDate!=null and endDate != ''">
-              and  endDate &lt;= #{endDate}
+                and  endDate &lt;= #{endDate}
             </if>
         </where>
     </select>
 
-    <delete id="removeActivityById">
+    <delete id="removeActivityByIds">
         delete from tbl_activity where id in
         <foreach collection="array" item="id" open="(" close=")"  separator=",">
             #{id}
         </foreach>
     </delete>
 
-    <select id="selectActivityById" resultType="int">
+    <select id="selectActivityByIds" resultType="int">
         select count(*) from tbl_activity where id in
         <foreach collection="array" item="id" open="(" close=")"  separator=",">
             #{id}
         </foreach>
     </select>
+
+    <select id="selectActivityById" resultType="Activity">
+       select
+            a.id,
+            u.name as owner,
+            a.name,
+            a.startDate,
+            a.endDate,
+            a.cost,
+            a.description
+        from
+            tbl_activity a
+        join
+            tbl_user u
+        on
+            a.owner = u.id
+        where a.id = #{id}
+    </select>
+
+    <update id="updateActivity">
+        update tbl_activity
+        <trim prefix="set" suffixOverrides=",">
+            <if test="owner!=null and owner != '' ">owner=#{owner},</if>
+            <if test="name!=null and name != '' ">name=#{name},</if>
+            <if test="startDate!=null and startDate != '' ">startDate=#{startDate},</if>
+            <if test="endDate!=endDate and endDate != '' ">endDate=#{endDate},</if>
+            <if test="cost!=null and cost != '' ">cost=#{cost},</if>
+            <if test="description!=null and description != '' ">description=#{description},</if>
+        </trim>
+        WHERE id=#{id}
+    </update>
+
 </mapper>

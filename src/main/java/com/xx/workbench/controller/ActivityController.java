@@ -19,8 +19,12 @@ import java.util.*;
 @Controller
 @RequestMapping("/workbench/activity")
 public class ActivityController {
+
+    /*采用Spring中框架中的Autowired完成自动注入将*/
     @Autowired
     private ActivityService activityService;
+
+
     @RequestMapping("/getUserList.do")
     @ResponseBody
     public List getUserList(){
@@ -72,7 +76,27 @@ public class ActivityController {
     @Transactional
     public boolean removeActivity(HttpServletRequest request){
         String[] ids = request.getParameterValues("id");
-        boolean flag = activityService.removeActivityById(ids);
+        boolean flag = activityService.removeActivityByIds(ids);
         return flag;
     }
+    @RequestMapping("/editActivity.do")
+    @ResponseBody
+    public Activity editActivity(String id){
+        Activity activity = activityService.selectActivityById(id);
+        return activity;
+    }
+
+    @RequestMapping("/updateActivity.do")
+    @ResponseBody
+    public boolean updateActivity(
+                                    String owner,String id,
+                                    String name ,
+                                    String startDate ,
+                                    String endDate ,
+                                    String cost ,
+                                    String description){
+        boolean flag = activityService.updateActivity(owner,id,name,startDate,endDate,cost,description);
+        return flag;
+    }
+
 }

@@ -21,6 +21,17 @@ public interface ActivityDao {
                             @Param("startDate") String startDate,
                             @Param("endDate") String endDate);
 
-    int removeActivityById(String[] ids);
-    int selectActivityById(String[] ids);
+    int removeActivityByIds(String[] ids);
+    int selectActivityByIds(String[] ids);
+
+    Activity selectActivityById(String id);
+
+    int updateActivity(
+            @Param("owner") String owner,
+            @Param("id") String id,
+            @Param("name") String name ,
+            @Param("startDate") String startDate ,
+            @Param("endDate") String endDate ,
+            @Param("cost") String cost ,
+            @Param("description") String description);
 }
