@@ -15,8 +15,8 @@
     <!--设置别名-->
     <typeAliases>
         <!--name:实体类所在的包名(不是实体类的包名也可以)-->
-        <package name="com.xx.settings.domain"/>
-        <package name="com.xx.workbench.domain"/>
+        <package name="com.crm.settings.domain"/>
+        <package name="com.crm.workbench.domain"/>
     </typeAliases>
 
 
@@ -28,8 +28,8 @@
            1. mapper文件名称和dao接口名必须完全一样，包括大小写
            2. mapper文件和dao接口必须在同一目录
         -->
-        <package name="com.xx.settings.dao"/>
-        <package name="com.xx.workbench.dao"/>
+        <package name="com.crm.settings.dao"/>
+        <package name="com.crm.workbench.dao"/>
 
     </mappers>
     <!-- 配置分页插件 -->

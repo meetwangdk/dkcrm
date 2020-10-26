@@ -61,6 +61,7 @@
                 dataType:"json",
                 success:function (resp) {
                     if (resp.flag){
+                        /*跳转到当前页面 workbench/index.jsp */
                         location.href= resp.page;
                     }else{
                         $("#msg").html(resp.msg);

@@ -37,6 +37,22 @@
 				pickerPosition : "bottom-left"
 			});
 
+			$("#edit-startTime").datetimepicker({
+				minView : "month",
+				language : "zh-CN",
+				format : "yyyy-mm-dd",
+				autoclose : true,
+				todayBtn : true,
+				pickerPosition : "bottom-left"
+			});$("#edit-endTime").datetimepicker({
+				minView : "month",
+				language : "zh-CN",
+				format : "yyyy-mm-dd",
+				autoclose : true,
+				todayBtn : true,
+				pickerPosition : "bottom-left"
+			});
+
 			/*为按钮绑定一个模态窗口
             * 需要操作的模态窗口的jquery对象。调用modal方法， 为该方法传递参数show:打开模态窗口hide: 关闭模态窗口*/
 			$("#addBtn").click(function () {
@@ -94,7 +110,18 @@
 							* */
 							$("#createActivityModal").modal("hide");
 							$("#resetActivityForm")[0].reset();
-							pageList(1,2);
+							/*pageList(1,2);*/
+							/*
+							* 	($("#activityPage").bs_pagination('getOption', 'currentPage')
+							*	表示:操作后停留在当前页面
+							* 	$("#activityPage").bs_pagination('getOption', 'rowsPerPage')
+							* 	表示：操作后维持之前设置好的展示的记录数
+							*
+							*
+							*  */
+							/*pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
+									,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));*/
+							pageList(1,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));
 						}
 						else{
 							alert("保存失败")
@@ -171,7 +198,7 @@
 							dataType:"json",
 							success:function (data) {
 								if (data == true ){
-									pageList(1,2);}
+									pageList(1,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'));}
 								else {
 									alert("删除失败")
 								}
@@ -241,22 +268,20 @@
 						dataType:"json",
 						success:function (data) {
 							if (data == true){
-								pageList(1,2);
+								/*表示修改成功后维持到当前页面*/
+								pageList($("#activityPage").bs_pagination('getOption', 'currentPage')
+										,$("#activityPage").bs_pagination('getOption', 'rowsPerPage'))
+
 								$("#editActivityModal").modal("hide");
 								alert("更新成功");
-								console.log($.trim($("#edit-marketActivityOwner").val()));
+								/*console.log($.trim($("#edit-marketActivityOwner").val()));*/
 							}
 							else{
 								alert("更新失败")
 							}
 						}
 					})
-
-
 				})
-
-
-
 			})
 
 
@@ -266,28 +291,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
 		});
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -334,7 +338,7 @@
 					$.each(data.list,function (i,activity) {
 						html += '<tr class="active">';
 						html += '<td><input type="checkbox" class="inputName" name="check" value="'+activity.id+'" /></td>';
-						html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="href = \'workbench/activity/detailActivityById?id='+activity.id+'\'">'+activity.name+'</a></td>';
+						html += '<td><a style="text-decoration: none; cursor: pointer;" onclick="href = \'workbench/activity/detail.do?id='+activity.id+'\'">'+activity.name+'</a></td>';
 						html += '<td>'+activity.owner+'</td>';
 						html += '<td>'+activity.startDate+'</td>';
 						html += '<td>'+activity.endDate+'</td>';

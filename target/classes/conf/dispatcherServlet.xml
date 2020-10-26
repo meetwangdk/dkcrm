@@ -6,13 +6,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
     <!--springmvc配置文件， 声明controller和其它web相关的对象-->
-    <context:component-scan base-package="com.xx.settings.controller" />
-    <context:component-scan base-package="com.xx.workbench.controller" />
+    <context:component-scan base-package="com.crm.settings.controller" />
+    <context:component-scan base-package="com.crm.workbench.controller" />
 
-<!--    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
-<!--        <property name="prefix" value="/WEB-INF/jsp/" />-->
-<!--        <property name="suffix" value=".jsp" />-->
-<!--    </bean>-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/workbench/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
 
 
 <!--    处理静态资源的问题   同时要要加入这个标签防止冲突 <mvc:annotation-driven /> -->
@@ -34,7 +34,7 @@
     <!--<mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**/*.do"/>
-            <bean class="com.xx.settings.handler.MyInterceptor"/>
+            <bean class="com.crm.settings.handler.MyInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>-->
 </beans>
