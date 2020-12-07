@@ -137,6 +137,7 @@ public class ActivityController {
         boolean flag = activityService.removeDetailById(id);
         return flag;
     }
+
     @RequestMapping("/editNoteContent.do")
     @ResponseBody
     public boolean editDetail(String id,String noteContent,HttpServletRequest request){
@@ -147,4 +148,5 @@ public class ActivityController {
         boolean flag = activityService.editRemarkById(id,noteContent,editFlag,editTime,editBy);
         return flag;
     }
+
 }

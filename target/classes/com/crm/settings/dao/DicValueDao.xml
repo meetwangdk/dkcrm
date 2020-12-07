@@ -4,6 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.crm.settings.dao.DicValueDao">
     <select id="selectDicValues" resultType="com.crm.settings.domain.DicValue">
-        select * from tbl_dic_value where typeCode = #{typecode}
+        select * from tbl_dic_value where typeCode = #{typecode} order by value
     </select>
 </mapper>

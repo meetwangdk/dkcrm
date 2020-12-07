@@ -1,12 +1,154 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
-  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.crm.workbench.dao.ClueDao">
-	
-	
-  	
+
+        <insert id="insertClue">
+        insert into tbl_clue values
+        (#{id},
+        #{fullname},
+        #{appellation},
+        #{owner},
+        #{company},
+        #{job},
+        #{email},
+        #{phone},
+        #{website},
+        #{mphone},
+        #{state},
+        #{source},
+        #{createBy},
+        #{createTime},
+        #{editBy},
+        #{editTime},
+        #{description},
+        #{contactSummary},
+        #{nextContactTime},
+        #{address})
+         </insert>
+
+        <select id="selectClueBy" resultType="Clue">
+                select
+                cl.id,
+                cl.fullname,
+                cl.appellation,
+                u.name as owner,
+                cl.company,
+                cl.job,
+                cl.email,
+                cl.phone,
+                cl.website,
+                cl.mphone,
+                cl.state,
+                cl.source,
+                cl.createBy,
+                cl.createTime,
+                cl.editBy,
+                cl.editTime,
+                cl.description,
+                cl.contactSummary,
+                cl.nextContactTime,
+                cl.address
+                from tbl_clue cl
+                join tbl_user u
+                on u.id = cl.owner
+                <where>
+                        <if test="clue.fullname!=null and clue.fullname!=''">
+                                cl.fullname like '%' #{clue.fullname} '%'
+                        </if>
+                        <if test="clue.company!=null and clue.company!=''">
+                                and cl.company like '%' #{clue.company} '%'
+                        </if>
+                        <if test="clue.phone!=null and clue.phone!=''">
+                                and cl.phone = #{clue.phone}
+                        </if>
+                        <if test="clue.source!=null and clue.source!=''">
+                                and cl.source = #{clue.source}
+                        </if>
+                        <if test="clue.owner!=null and clue.owner!=''">
+                                and u.name = #{clue.owner}
+                        </if>
+                        <if test="clue.mphone!=null and clue.mphone!=''">
+                                and mphone = #{clue.mphone}
+                        </if>
+                        <if test="clue.state!=null and clue.state!=''">
+                                and state = #{clue.state}
+                        </if>
+                </where>
+                order by cl.createTime desc limit #{startPage},#{pageSize}
+        </select>
+
+        <select id="selectClue" resultType="int">
+                select count(*) from tbl_clue
+        </select>
+
+
+        <!--修改线索-->
+        <update id="updateClue">
+                update tbl_clue set
+                fullname=#{fullname},
+                appellation=#{appellation},
+                owner=#{owner},
+                company=#{company},
+                job=#{job},
+                email=#{email},
+                phone=#{phone},
+                website=#{website},
+                mphone=#{mphone},
+                state=#{state},
+                source=#{source},
+                editBy=#{editBy},
+                editTime=#{editTime},
+                description=#{description},
+                contactSummary=#{contactSummary},
+                nextContactTime=#{nextContactTime},
+                address=#{address}
+                where id = #{id}
+        </update>
+
+        <select id="selectClueById" resultType="clue">
+                select
+                cl.id,
+                cl.fullname,
+                cl.appellation,
+                u.name as owner,
+                cl.company,
+                cl.job,
+                cl.email,
+                cl.phone,
+                cl.website,
+                cl.mphone,
+                cl.state,
+                cl.source,
+                cl.createBy,
+                cl.createTime,
+                cl.editBy,
+                cl.editTime,
+                cl.description,
+                cl.contactSummary,
+                cl.nextContactTime,
+                cl.address
+                from tbl_clue cl
+                join tbl_user u
+                on u.id = cl.owner
+                where cl.id = #{id}
+        </select>
+
+        <select id="selectClueByIds" resultType="int">
+                select count(*) from tbl_clue where id in
+                <foreach collection="array" open="(" close=")" separator="," item="id">
+                        #{id}
+                </foreach>
+        </select>
+
+        <delete id="deleteClueByIds">
+                delete from tbl_clue where id in
+                <foreach collection="array" open="(" item="id" close=")" separator="," >
+                        #{id}
+                </foreach>
+        </delete>
 </mapper>
 
 

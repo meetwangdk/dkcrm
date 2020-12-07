@@ -5,8 +5,10 @@ import com.crm.settings.domain.User;
 import com.crm.utils.DateTimeUtil;
 import com.crm.workbench.dao.ActivityDao;
 import com.crm.workbench.dao.ActivityRemarkDao;
+import com.crm.workbench.dao.ClueRemarkDao;
 import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.ActivityRemark;
+import com.crm.workbench.domain.ClueActivityRelation;
 import com.crm.workbench.exception.RemoveException;
 import com.crm.workbench.service.ActivityService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class ActivityServiceImpl implements ActivityService {
     private ActivityDao activityDao;
     @Autowired
     private ActivityRemarkDao activityRemarkDao;
+    @Autowired
+    private ClueRemarkDao clueRemarkDao;
 
     @Override
     public List<User> getUserList() {
@@ -137,5 +141,43 @@ public class ActivityServiceImpl implements ActivityService {
             flag = true;
         }
         return flag;
+    }
+
+    @Override
+    public List<Activity> searchAcitvityListById(String id) {
+        List<Activity>list = activityDao.selectClueActivityById(id);
+        return list;
+    }
+
+    @Override
+    public boolean removeClueActivityById(String id) {
+        boolean flag = false;
+        int i = activityDao.deleteClueActivityById(id);
+        if (i>0){
+            flag = true;
+        }
+        return flag;
+    }
+
+    @Override
+    public List<Activity> searchANameAndClueId(String aName, String clueId) {
+        List<Activity> list = activityDao.searchANameAndClueId(aName,clueId);
+        return list;
+    }
+
+    @Override
+    public boolean relevanceActivity(List<ClueActivityRelation> list) {
+        boolean flag = false;
+        int a = clueRemarkDao.insertRelevanceActivity(list);
+        if (a==list.size()){
+            flag =  true;
+        }
+        return flag;
+    }
+
+    @Override
+    public List<Activity> searchActivityByName(String name) {
+        List<Activity> list = activityDao.searchActivityByName(name);
+        return list;
     }
 }

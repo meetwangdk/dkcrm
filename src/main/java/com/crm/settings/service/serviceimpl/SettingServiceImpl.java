@@ -21,11 +21,11 @@ public class SettingServiceImpl implements SettingService {
 
     @Override
     public Map<String,List<DicValue>> selectDicType() {
-
         Map<String,List<DicValue>> map = new HashMap<>();
         List<DicType> dicTypes = dicTypeDao.selectDicType();
         for (DicType dicType : dicTypes){
             String code = dicType.getCode();
+            System.out.println("在监听器中得到的DicType-code"+code);
             List<DicValue> list = dicValueDao.selectDicValues(code);
             map.put(code,list);
         }

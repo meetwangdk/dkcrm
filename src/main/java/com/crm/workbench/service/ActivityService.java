@@ -3,6 +3,7 @@ package com.crm.workbench.service;
 import com.crm.settings.domain.User;
 import com.crm.workbench.domain.Activity;
 import com.crm.workbench.domain.ActivityRemark;
+import com.crm.workbench.domain.ClueActivityRelation;
 
 import java.util.List;
 
@@ -45,4 +46,14 @@ public interface ActivityService {
     boolean removeDetailById(String id);
 
     boolean editRemarkById(String id, String noteContent, String editFlag, String editTime, String editBy);
+
+    List<Activity> searchAcitvityListById(String id);
+
+    boolean removeClueActivityById(String id);
+
+    List<Activity> searchANameAndClueId(String aName, String clueId);
+
+    boolean relevanceActivity(List<ClueActivityRelation> list);
+
+    List<Activity> searchActivityByName(String name);
 }

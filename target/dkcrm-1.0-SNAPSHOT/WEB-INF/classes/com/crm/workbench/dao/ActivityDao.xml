@@ -109,4 +109,69 @@
         WHERE id=#{id}
     </update>
 
+
+    <select id="selectClueActivityById" resultType="activity">
+        select
+            car.id as id,
+            a.name,
+            a.startDate,
+            a.endDate,
+            u.name as owner
+        from
+            tbl_activity a
+        join
+            tbl_user u
+        on
+            a.owner = u.id
+        join
+              tbl_clue_activity_relation car
+        on
+            car.activityId = a.id
+        where
+            car.clueId = #{id}
+    </select>
+
+    <delete id="deleteClueActivityById">
+        delete from tbl_clue_activity_relation where id = #{id}
+    </delete>
+
+    <select id="searchANameAndClueId" resultType="Activity">
+        select
+            a.id,
+            a.name,
+            a.startDate,
+            a.endDate,
+            u.name as owner
+        from tbl_activity a
+        join tbl_user u
+        on u.id = a.owner
+        where
+            a.name like '%' #{aName} '%' and a.id not in (
+                select activityId from tbl_clue_activity_relation where clueId = #{clueId}
+            )
+
+    </select>
+
+    <select id="searchActivityByName" resultType="activity">
+        select
+        a.id,
+        u.name as owner,
+        a.name,
+        a.startDate,
+        a.endDate,
+        a.cost,
+        a.description,
+        a.createTime,
+        a.createBy,
+        a.editTime,
+        a.editBy
+        from
+            tbl_activity a
+        join
+            tbl_user u
+        on
+            u.id = a.owner
+        where a.name like '%' #{name} '%'
+    </select>
+
 </mapper>

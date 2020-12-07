@@ -1,6 +1,7 @@
 package com.crm.workbench.dao;
 
 import com.crm.workbench.domain.Activity;
+import com.crm.workbench.domain.ClueActivityRelation;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -36,4 +37,13 @@ public interface ActivityDao {
             @Param("editTime") String editTime,
             @Param("editBy") String editBy
             );
+
+    List<Activity> selectClueActivityById(String id);
+
+    int deleteClueActivityById(String id);
+
+    List<Activity> searchANameAndClueId(@Param("aName") String aName,@Param("clueId") String clueId);
+
+
+    List<Activity> searchActivityByName(String name);
 }

@@ -1,5 +1,6 @@
 com\crm\settings\web_filter\LoginFilter.class
 com\crm\workbench\domain\CustomerRemark.class
+com\crm\workbench\controller\ClueController.class
 com\crm\workbench\dao\ClueDao.class
 com\crm\workbench\domain\ActivityRemark.class
 com\crm\workbench\dao\TranHistoryDao.class
@@ -7,6 +8,7 @@ com\crm\workbench\domain\TranHistory.class
 com\crm\workbench\domain\Tran.class
 com\crm\workbench\domain\Contacts.class
 com\crm\settings\dao\UserDao.class
+com\crm\workbench\service\serviceImpl\ClueServiceImpl.class
 com\crm\workbench\controller\ActivityController.class
 com\crm\workbench\dao\CustomerRemarkDao.class
 com\crm\settings\service\SettingService.class
@@ -31,6 +33,7 @@ com\crm\workbench\exception\RemoveException.class
 com\crm\workbench\dao\ClueRemarkDao.class
 com\crm\workbench\dao\TranDao.class
 com\crm\workbench\domain\Activity.class
+com\crm\workbench\service\ClueService.class
 com\crm\workbench\domain\ContactsRemark.class
 com\crm\utils\PrintJson.class
 com\crm\settings\dao\DicTypeDao.class

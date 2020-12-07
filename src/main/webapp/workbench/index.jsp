@@ -42,7 +42,7 @@
 		});
 		
 		/*页面加载完毕之后打开main/index.html这个工作空间*/
-		window.open("workbench/main/index.heml","workareaFrame");
+		window.open("workbench/main/index.html","workareaFrame");
 		
 	});
 	

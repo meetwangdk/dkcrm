@@ -4,6 +4,7 @@ import com.crm.settings.dao.DicTypeDao;
 import com.crm.settings.domain.DicType;
 import com.crm.settings.domain.DicValue;
 import com.crm.settings.service.SettingService;
+import jdk.internal.joptsimple.internal.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -37,11 +38,15 @@ public class SysInitListener implements ServletContextListener {
         ServletContext application = servletContextEvent.getServletContext();
         Map<String, List<DicValue>> map = settingService.selectDicType();
         Set<String> strings = map.keySet();
-        Iterator<String> iterator = strings.iterator();
+        /*Iterator<String> iterator = strings.iterator();
         if (iterator.hasNext()){
-            String next = iterator.next();
-            List<DicValue> list = map.get(next);
-            application.setAttribute(next,list);
+            String key = iterator.next();
+            List<DicValue> list = map.get(key);
+            application.setAttribute(key,list);
+        }*/
+        for (String key: strings){
+            List<DicValue> list = map.get(key);
+            application.setAttribute(key,list);
         }
     }
     @Override
